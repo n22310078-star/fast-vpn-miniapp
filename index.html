@@ -1,84 +1,195 @@
 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FAST VPN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-* {box-sizing:border-box}
-body {
- margin:0;
- padding:25px 18px;
- background:#edf5ff;
- color:#172b46;
+*{box-sizing:border-box}
+body{
+ margin:0;padding:22px 17px 35px;
+ background:#edf5ff;color:#183554;
  font-family:Arial,sans-serif;
 }
-.header {font-size:27px;font-weight:bold;margin-top:20px}
-.sub {color:#70839d;margin-top:8px}
-.card {
- background:white;
- padding:22px;
- border-radius:20px;
- margin-top:20px;
- box-shadow:0 5px 20px #b7d4f322;
+.header{
+ display:flex;align-items:center;
+ justify-content:space-between;
+ margin:12px 0 28px;
 }
-button {
- width:100%;
- padding:16px;
- border:0;
- border-radius:14px;
- background:#247cff;
- color:white;
- font-size:16px;
- font-weight:bold;
- margin-top:14px;
+.logo{font-size:27px;font-weight:900;color:#247cff}
+.online{
+ background:#d9f9e8;color:#16985b;
+ padding:7px 12px;border-radius:20px;
+ font-size:12px;font-weight:bold
 }
-.info {color:#70839d;font-size:14px}
-.nav {display:flex;gap:8px;margin-top:20px}
-.nav button {font-size:13px;padding:13px 5px}
+h1{font-size:29px;margin:0 0 8px}
+.subtitle{color:#8093aa;font-size:14px}
+.card{
+ background:white;border-radius:20px;
+ padding:20px;margin-top:17px;
+ box-shadow:0 5px 20px #b5d2ed25;
+}
+.section-title{font-size:18px;font-weight:bold}
+.muted{color:#8b9caf;font-size:13px;margin-top:8px}
+.status{
+ background:#f1f7ff;padding:17px;
+ border-radius:15px;margin-top:15px;
+}
+.status b{font-size:17px}
+.prices{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:12px;margin-top:15px;
+}
+.price{
+ border:2px solid #e5effb;
+ border-radius:17px;padding:16px 12px;
+}
+.price.year{border-color:#247cff}
+.amount{font-size:27px;font-weight:bold;margin:13px 0 5px}
+.small{font-size:12px;color:#8294a9}
+.tag{
+ color:#168b57;background:#dff8e9;
+ padding:5px 8px;border-radius:8px;
+ font-size:11px;font-weight:bold;
+}
+button{
+ width:100%;border:0;border-radius:14px;
+ padding:15px;margin-top:13px;
+ background:#247cff;color:white;
+ font-size:15px;font-weight:bold;
+ cursor:pointer;
+}
+button:active{opacity:.8}
+.secondary{background:#edf5ff;color:#247cff}
+.feature{
+ display:flex;gap:13px;align-items:center;
+ padding:12px 0;
+ border-bottom:1px solid #edf2f8;
+}
+.feature:last-child{border:0}
+.feature-icon{font-size:23px}
+.feature-text{font-size:14px;font-weight:bold}
+footer{
+ text-align:center;color:#9aabc0;
+ font-size:12px;margin-top:28px
+}
 </style>
 </head>
 <body>
 
-<div class="header">FAST VPN</div>
-<div class="sub">Быстрый и стабильный интернет</div>
+<div class="header">
+ <div class="logo">⚡ FAST VPN</div>
+ <div class="online">● ONLINE</div>
+</div>
 
-<div class="card">
- <h2>Твоя подписка</h2>
- <div class="info" id="status">Проверяем статус...</div>
- <button onclick="buy()">Купить VPN — 150 ₽</button>
+<h1>Твой интернет.<br>Твои правила.</h1>
+<div class="subtitle">
+ Быстрый и стабильный интернет каждый день.
 </div>
 
 <div class="card">
- <h3>Твой профиль</h3>
- <div class="info" id="profile">Загрузка...</div>
+ <div class="section-title">Моя подписка</div>
+ <div class="status">
+  <b id="subscription">Нет активной подписки</b>
+  <div class="muted" id="subscriptionInfo">
+   Выбери тариф, чтобы начать пользоваться FAST VPN
+  </div>
+ </div>
 </div>
 
 <div class="card">
- <h3>Поддержка</h3>
- <div class="info">Возникли вопросы? Напиши нам.</div>
+ <div class="section-title">Выбери тариф</div>
+ <div class="prices">
+  <div class="price">
+   <b>1 месяц</b>
+   <div class="amount">160 ₽</div>
+   <div class="small">30 дней</div>
+   <button onclick="buy('month')">Выбрать</button>
+  </div>
+  <div class="price year">
+   <span class="tag">Выгодно</span>
+   <div style="margin-top:10px;font-weight:bold">1 год</div>
+   <div class="amount">359 ₽</div>
+   <div class="small">365 дней</div>
+   <button onclick="buy('year')">Выбрать</button>
+  </div>
+ </div>
+</div>
+
+<div class="card">
+ <div class="section-title">Личный кабинет</div>
+ <div class="feature">
+  <div class="feature-icon">👤</div>
+  <div>
+   <div class="feature-text">Мой профиль</div>
+   <div class="small" id="userid">Открой через Telegram</div>
+  </div>
+ </div>
+ <div class="feature">
+  <div class="feature-icon">🔑</div>
+  <div>
+   <div class="feature-text">Мои VPN-ключи</div>
+   <div class="small">Просмотр выданных ключей</div>
+  </div>
+ </div>
+ <button class="secondary" onclick="showKeys()">
+  Мои ключи
+ </button>
+</div>
+
+<div class="card">
+ <div class="section-title">Почему FAST VPN?</div>
+ <div class="feature">
+  <div class="feature-icon">⚡</div>
+  <div class="feature-text">Быстрое подключение</div>
+ </div>
+ <div class="feature">
+  <div class="feature-icon">🛡️</div>
+  <div class="feature-text">Защита соединения</div>
+ </div>
+ <div class="feature">
+  <div class="feature-icon">🌍</div>
+  <div class="feature-text">Удобство использования</div>
+ </div>
+</div>
+
+<div class="card">
+ <div class="section-title">Нужна помощь?</div>
+ <div class="muted">Наша поддержка поможет тебе разобраться.</div>
  <button onclick="support()">Написать в поддержку</button>
 </div>
 
+<footer>FAST VPN © 2026</footer>
+
 <script>
-const tg = window.Telegram.WebApp;
+const tg=window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-const user = tg.initDataUnsafe?.user;
+const user=tg.initDataUnsafe?.user;
 
-document.getElementById("profile").innerText =
- user ? "Telegram ID: " + user.id :
- "Открой приложение через Telegram";
-
-function buy() {
- tg.showAlert("Для покупки обратись к администратору FAST VPN");
+if(user){
+ document.getElementById('userid').innerText=
+ 'Telegram ID: '+user.id;
 }
 
-function support() {
- tg.openTelegramLink("https://t.me/fustvpn_support");
+function buy(plan){
+ const name=plan==='month'?'1 месяц — 160 ₽':'1 год — 359 ₽';
+ tg.showAlert(
+  'Выбран тариф: '+name+
+  '\nОнлайн-оплата пока не подключена. Обратись к администратору.'
+ );
+}
+
+function support(){
+ tg.openTelegramLink('https://t.me/fustvpn_support');
+}
+
+function showKeys(){
+ tg.showAlert('Твои VPN-ключи пока не подключены к Mini App.');
 }
 </script>
 
