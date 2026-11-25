@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAST VPN</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* {box-sizing:border-box}
+body {
+ margin:0;
+ padding:25px 18px;
+ background:#edf5ff;
+ color:#172b46;
+ font-family:Arial,sans-serif;
+}
+.header {font-size:27px;font-weight:bold;margin-top:20px}
+.sub {color:#70839d;margin-top:8px}
+.card {
+ background:white;
+ padding:22px;
+ border-radius:20px;
+ margin-top:20px;
+ box-shadow:0 5px 20px #b7d4f322;
+}
+button {
+ width:100%;
+ padding:16px;
+ border:0;
+ border-radius:14px;
+ background:#247cff;
+ color:white;
+ font-size:16px;
+ font-weight:bold;
+ margin-top:14px;
+}
+.info {color:#70839d;font-size:14px}
+.nav {display:flex;gap:8px;margin-top:20px}
+.nav button {font-size:13px;padding:13px 5px}
+</style>
+</head>
+<body>
+
+<div class="header">FAST VPN</div>
+<div class="sub">Быстрый и стабильный интернет</div>
+
+<div class="card">
+ <h2>Твоя подписка</h2>
+ <div class="info" id="status">Проверяем статус...</div>
+ <button onclick="buy()">Купить VPN — 150 ₽</button>
+</div>
+
+<div class="card">
+ <h3>Твой профиль</h3>
+ <div class="info" id="profile">Загрузка...</div>
+</div>
+
+<div class="card">
+ <h3>Поддержка</h3>
+ <div class="info">Возникли вопросы? Напиши нам.</div>
+ <button onclick="support()">Написать в поддержку</button>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const user = tg.initDataUnsafe?.user;
+
+document.getElementById("profile").innerText =
+ user ? "Telegram ID: " + user.id :
+ "Открой приложение через Telegram";
+
+function buy() {
+ tg.showAlert("Для покупки обратись к администратору FAST VPN");
+}
+
+function support() {
+ tg.openTelegramLink("https://t.me/fustvpn_support");
+}
+</script>
+
+</body>
+</html>
