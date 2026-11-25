@@ -7,77 +7,187 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FAST VPN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;padding:22px 17px 35px;
- background:#edf5ff;color:#183554;
+ margin:0;
+ padding:22px 17px 35px;
+ background:#edf5ff;
+ color:#183554;
  font-family:Arial,sans-serif;
 }
+
 .header{
- display:flex;align-items:center;
+ display:flex;
+ align-items:center;
  justify-content:space-between;
  margin:12px 0 28px;
 }
-.logo{font-size:27px;font-weight:900;color:#247cff}
-.online{
- background:#d9f9e8;color:#16985b;
- padding:7px 12px;border-radius:20px;
- font-size:12px;font-weight:bold
+
+.logo{
+ font-size:27px;
+ font-weight:900;
+ color:#247cff;
 }
+
+.online{
+ background:#d9f9e8;
+ color:#16985b;
+ padding:7px 12px;
+ border-radius:20px;
+ font-size:12px;
+ font-weight:bold;
+}
+
 h1{font-size:29px;margin:0 0 8px}
 .subtitle{color:#8093aa;font-size:14px}
+
 .card{
- background:white;border-radius:20px;
- padding:20px;margin-top:17px;
+ background:white;
+ border-radius:20px;
+ padding:20px;
+ margin-top:17px;
  box-shadow:0 5px 20px #b5d2ed25;
 }
+
 .section-title{font-size:18px;font-weight:bold}
 .muted{color:#8b9caf;font-size:13px;margin-top:8px}
+
 .status{
- background:#f1f7ff;padding:17px;
- border-radius:15px;margin-top:15px;
+ background:#f1f7ff;
+ padding:17px;
+ border-radius:15px;
+ margin-top:15px;
 }
+
 .status b{font-size:17px}
+
 .prices{
- display:grid;grid-template-columns:1fr 1fr;
- gap:12px;margin-top:15px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-top:15px;
 }
+
 .price{
  border:2px solid #e5effb;
- border-radius:17px;padding:16px 12px;
+ border-radius:17px;
+ padding:16px 12px;
 }
+
 .price.year{border-color:#247cff}
-.amount{font-size:27px;font-weight:bold;margin:13px 0 5px}
+
+.amount{
+ font-size:27px;
+ font-weight:bold;
+ margin:13px 0 5px;
+}
+
 .small{font-size:12px;color:#8294a9}
+
 .tag{
- color:#168b57;background:#dff8e9;
- padding:5px 8px;border-radius:8px;
- font-size:11px;font-weight:bold;
+ color:#168b57;
+ background:#dff8e9;
+ padding:5px 8px;
+ border-radius:8px;
+ font-size:11px;
+ font-weight:bold;
 }
+
+/* АНИМИРОВАННЫЕ КНОПКИ ПОКУПКИ */
 button{
- width:100%;border:0;border-radius:14px;
- padding:15px;margin-top:13px;
- background:#247cff;color:white;
- font-size:15px;font-weight:bold;
+ width:100%;
+ border:0;
+ border-radius:14px;
+ padding:15px;
+ margin-top:13px;
+ background:#247cff;
+ color:white;
+ font-size:15px;
+ font-weight:bold;
  cursor:pointer;
+ transition:transform .2s,box-shadow .2s,background .2s;
 }
-button:active{opacity:.8}
-.secondary{background:#edf5ff;color:#247cff}
+
+.buy-button{
+ position:relative;
+ overflow:hidden;
+ background:linear-gradient(110deg,#247cff,#55b7ff,#247cff);
+ background-size:200% 100%;
+ box-shadow:0 5px 17px #247cff45;
+ animation:glow 2.2s ease-in-out infinite,
+           shine 4s linear infinite;
+}
+
+.buy-button::after{
+ content:"";
+ position:absolute;
+ top:-50%;
+ left:-80%;
+ width:45%;
+ height:200%;
+ background:rgba(255,255,255,.35);
+ transform:rotate(25deg);
+ animation:sweep 3.5s ease-in-out infinite;
+ pointer-events:none;
+}
+
+.buy-button:active{
+ transform:scale(.95);
+ box-shadow:0 2px 8px #247cff55;
+}
+
+@keyframes glow{
+ 0%,100%{box-shadow:0 5px 17px #247cff35}
+ 50%{box-shadow:0 5px 25px #247cff85}
+}
+
+@keyframes shine{
+ 0%{background-position:0% 50%}
+ 100%{background-position:200% 50%}
+}
+
+@keyframes sweep{
+ 0%,45%{left:-80%}
+ 75%,100%{left:140%}
+}
+
+button:active{opacity:.85}
+
+.secondary{
+ background:#edf5ff;
+ color:#247cff;
+ box-shadow:none;
+ animation:none;
+}
+
 .feature{
- display:flex;gap:13px;align-items:center;
+ display:flex;
+ gap:13px;
+ align-items:center;
  padding:12px 0;
  border-bottom:1px solid #edf2f8;
 }
+
 .feature:last-child{border:0}
 .feature-icon{font-size:23px}
 .feature-text{font-size:14px;font-weight:bold}
+
 footer{
- text-align:center;color:#9aabc0;
- font-size:12px;margin-top:28px
+ text-align:center;
+ color:#9aabc0;
+ font-size:12px;
+ margin-top:28px;
+}
+
+@media(prefers-reduced-motion:reduce){
+ .buy-button,.buy-button::after{animation:none}
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -86,6 +196,7 @@ footer{
 </div>
 
 <h1>Твой интернет.<br>Твои правила.</h1>
+
 <div class="subtitle">
  Быстрый и стабильный интернет каждый день.
 </div>
@@ -102,25 +213,34 @@ footer{
 
 <div class="card">
  <div class="section-title">Выбери тариф</div>
+
  <div class="prices">
+
   <div class="price">
    <b>1 месяц</b>
-   <div class="amount">160 ₽</div>
+   <div class="amount">150 ⭐</div>
    <div class="small">30 дней</div>
-   <button onclick="buy('month')">Выбрать</button>
+   <button class="buy-button" onclick="buy('month')">
+    Купить за 150 ⭐
+   </button>
   </div>
+
   <div class="price year">
    <span class="tag">Выгодно</span>
    <div style="margin-top:10px;font-weight:bold">1 год</div>
-   <div class="amount">359 ₽</div>
+   <div class="amount">365 ⭐</div>
    <div class="small">365 дней</div>
-   <button onclick="buy('year')">Выбрать</button>
+   <button class="buy-button" onclick="buy('year')">
+    Купить за 365 ⭐
+   </button>
   </div>
+
  </div>
 </div>
 
 <div class="card">
  <div class="section-title">Личный кабинет</div>
+
  <div class="feature">
   <div class="feature-icon">👤</div>
   <div>
@@ -128,6 +248,7 @@ footer{
    <div class="small" id="userid">Открой через Telegram</div>
   </div>
  </div>
+
  <div class="feature">
   <div class="feature-icon">🔑</div>
   <div>
@@ -135,6 +256,7 @@ footer{
    <div class="small">Просмотр выданных ключей</div>
   </div>
  </div>
+
  <button class="secondary" onclick="showKeys()">
   Мои ключи
  </button>
@@ -142,14 +264,17 @@ footer{
 
 <div class="card">
  <div class="section-title">Почему FAST VPN?</div>
+
  <div class="feature">
   <div class="feature-icon">⚡</div>
   <div class="feature-text">Быстрое подключение</div>
  </div>
+
  <div class="feature">
   <div class="feature-icon">🛡️</div>
   <div class="feature-text">Защита соединения</div>
  </div>
+
  <div class="feature">
   <div class="feature-icon">🌍</div>
   <div class="feature-text">Удобство использования</div>
@@ -158,30 +283,37 @@ footer{
 
 <div class="card">
  <div class="section-title">Нужна помощь?</div>
- <div class="muted">Наша поддержка поможет тебе разобраться.</div>
+ <div class="muted">
+  Наша поддержка поможет тебе разобраться.
+ </div>
  <button onclick="support()">Написать в поддержку</button>
 </div>
 
 <footer>FAST VPN © 2026</footer>
 
 <script>
-const tg=window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
+
 tg.ready();
 tg.expand();
 
-const user=tg.initDataUnsafe?.user;
+const user = tg.initDataUnsafe?.user;
 
 if(user){
- document.getElementById('userid').innerText=
- 'Telegram ID: '+user.id;
+ document.getElementById('userid').innerText =
+  'Telegram ID: ' + user.id;
 }
 
 function buy(plan){
- const name=plan==='month'?'1 месяц — 160 ₽':'1 год — 359 ₽';
- tg.showAlert(
-  'Выбран тариф: '+name+
-  '\nОнлайн-оплата пока не подключена. Обратись к администратору.'
- );
+ const link = plan === 'month'
+  ? 'https://t.me/fast_vpnbeliy_bot?start=buy_month'
+  : 'https://t.me/fast_vpnbeliy_bot?start=buy_year';
+
+ if(tg.openTelegramLink){
+  tg.openTelegramLink(link);
+ }else{
+  window.open(link,'_blank');
+ }
 }
 
 function support(){
